@@ -1,8 +1,8 @@
-const orientationText = document.getElementById('orientationText');
-const accelerationText = document.getElementById('accelerationText');
-const accelerationIncludingGravityText = document.getElementById('accelerationIncludingGravityText');
-const rotationRateText = document.getElementById('rotationRateText');
-const intervalText = document.getElementById('intervalText');
+const orientationText = document.getElementById('orientation');
+const accelerationText = document.getElementById('acceleration');
+const accelerationIncludingGravityText = document.getElementById('accelerationIncludingGravity');
+const rotationRateText = document.getElementById('rotationRate');
+const intervalText = document.getElementById('interval');
 
 if (window.DeviceOrientationEvent) {
 	window.addEventListener("deviceorientation", (event) => {
