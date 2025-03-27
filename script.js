@@ -4,6 +4,7 @@ const accelerationIncludingGravityText = document.getElementById('accelerationIn
 const rotationRateText = document.getElementById('rotationRate');
 const intervalText = document.getElementById('interval');
 
+orientationText.innerHTML = "A";
 if (window.DeviceOrientationEvent) {
 	window.addEventListener("deviceorientation", (event) => {
 		orientationText.innerHTML = `Orientation Alpha: ${event.alpha}°\n Orientation Beta: ${event.beta}°\n Orientation Gamma: ${event.gamma}°`;
