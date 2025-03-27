@@ -1,11 +1,22 @@
-const text = document.getElementsByTagName('p')[0];
+const orientationText = document.getElementById('orientationText');
+const motionText = document.getElementById('motionText');
 
 if (window.DeviceOrientationEvent) {
 	window.addEventListener("deviceorientation", (event) => {
-		console.log(`Alpha: ${event.alpha}, Beta: ${event.beta}, Gamma: ${event.gamma}`);
-		text.innerHTML = `Alpha: ${event.alpha}, Beta: ${event.beta}, Gamma: ${event.gamma}`;
+		console.log(`Alpha: ${event.alpha}\n Beta: ${event.beta}\n Gamma: ${event.gamma}`);
+		orientationText.innerHTML = `Alpha: ${event.alpha}\n Beta: ${event.beta}\n Gamma: ${event.gamma}`;
 	}, true);
 }
 else {
-	text.innerHTML = "Device Orientation API not supported.";
+	orientationText.innerHTML = "Device Orientation API not supported.";
+}
+
+if (window.DeviceMotionEvent) {
+	window.addEvenetListener("devicemotion", (event) => {
+		console.log(`Acceleration X: ${event.x}\n Acceleration Y: ${event.y}\n Acceleration Z: ${event.z}`);
+		motionText.innerHTML = `Acceleration X: ${event.x}\n Acceleration Y: ${event.y}\n Acceleration Z: ${event.z}`;
+	}, true);
+}
+else {
+	motionText.innerHTML = "Device Motion API not supported.";
 }
