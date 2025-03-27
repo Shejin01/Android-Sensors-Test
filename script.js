@@ -1,10 +1,12 @@
 const orientationText = document.getElementById('orientationText');
-const motionText = document.getElementById('motionText');
+const accelerationText = document.getElementById('accelerationText');
+const accelerationIncludingGravityText = document.getElementById('accelerationIncludingGravityText');
+const rotationRateText = document.getElementById('rotationRateText');
+const intervalText = document.getElementById('intervalText');
 
 if (window.DeviceOrientationEvent) {
 	window.addEventListener("deviceorientation", (event) => {
-		console.log(`Alpha: ${event.alpha}\n Beta: ${event.beta}\n Gamma: ${event.gamma}`);
-		orientationText.innerHTML = `Alpha: ${event.alpha}\n Beta: ${event.beta}\n Gamma: ${event.gamma}`;
+		orientationText.innerHTML = `Orientation Alpha: ${event.alpha}°\n Orientation Beta: ${event.beta}°\n Orientation Gamma: ${event.gamma}°`;
 	}, true);
 }
 else {
@@ -12,11 +14,19 @@ else {
 }
 
 if (window.DeviceMotionEvent) {
-	window.addEvenetListener("devicemotion", (event) => {
-		console.log(`Acceleration X: ${event.x}\n Acceleration Y: ${event.y}\n Acceleration Z: ${event.z}`);
-		motionText.innerHTML = `Acceleration X: ${event.x}\n Acceleration Y: ${event.y}\n Acceleration Z: ${event.z}`;
+	window.addEventListener("devicemotion", (event) => {
+		accelerationText.innerHTML = `Acceleration X: ${event.acceleration.x}m/s²\n Acceleration Y: ${event.acceleration.y}m/s²\n Acceleration Z: ${event.acceleration.z}m/s²`;
+
+		accelerationIncludingGravityText.innerHTML = `Acceleration X: ${event.accelerationIncludingGravity.x}m/s²\n Acceleration Y: ${event.accelerationIncludingGravity.y}m/s²\n Acceleration Z: ${event.accelerationIncludingGravity.z}m/s²`;
+
+		rotationRateText.innerHTML = `Rotation Rate Alpha: ${event.rotationRate.alpha}°/s\n Rotation Rate Beta: ${event.rotationRate.beta}°/s\n Rotation Rate Gamma: ${event.rotationRate.gamma}°/s`;
+
+		intervalText.innerHTML = `Interval: ${event.interval}ms`;
 	}, true);
 }
 else {
-	motionText.innerHTML = "Device Motion API not supported.";
+	accelerationText.innerHTML = "Device Motion API not supported.";
+	accelerationIncludingGravityText.innerHTML = "";
+	rotationRateText.innerHTML = "";
+	intervalText.innerHTML = "";
 }
