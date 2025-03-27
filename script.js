@@ -46,3 +46,19 @@ else {
 	rotationRateText.innerHTML = "";
 	intervalText.innerHTML = "";
 }
+
+const sensor = new Magnetometer();
+const magnetometerText = document.getElementById('magnetometer');
+sensor.start();
+
+sensor.onreading = () => {
+	magnetometerText.innerHTML = `
+		Magnetic Field X: ${sensor.x}µT<br>
+		Magnetic Field Y: ${sensor.y}µT<br>
+		Magnetic Field Z: ${sensor.z}µT
+	`;
+};
+
+sensor.onerror = event => {
+	magnetometerText.innerHTML = `${event.error.name}: ${event.error.message}`;
+}
