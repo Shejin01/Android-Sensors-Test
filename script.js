@@ -4,10 +4,13 @@ const accelerationIncludingGravityText = document.getElementById('accelerationIn
 const rotationRateText = document.getElementById('rotationRate');
 const intervalText = document.getElementById('interval');
 
-orientationText.innerHTML = "A";
 if (window.DeviceOrientationEvent) {
 	window.addEventListener("deviceorientation", (event) => {
-		orientationText.innerHTML = `Orientation Alpha: ${event.alpha}°\n Orientation Beta: ${event.beta}°\n Orientation Gamma: ${event.gamma}°`;
+		orientationText.innerHTML = `
+			Orientation Alpha: ${event.alpha}°<br>
+			Orientation Beta: ${event.beta}°<br>
+			Orientation Gamma: ${event.gamma}°
+		`;
 	}, true);
 }
 else {
@@ -16,11 +19,23 @@ else {
 
 if (window.DeviceMotionEvent) {
 	window.addEventListener("devicemotion", (event) => {
-		accelerationText.innerHTML = `Acceleration X: ${event.acceleration.x}m/s²\n Acceleration Y: ${event.acceleration.y}m/s²\n Acceleration Z: ${event.acceleration.z}m/s²`;
+		accelerationText.innerHTML = `
+			Acceleration X: ${event.acceleration.x}m/s²<br>
+			Acceleration Y: ${event.acceleration.y}m/s²<br>
+			Acceleration Z: ${event.acceleration.z}m/s²
+		`;
 
-		accelerationIncludingGravityText.innerHTML = `Acceleration X: ${event.accelerationIncludingGravity.x}m/s²\n Acceleration Y: ${event.accelerationIncludingGravity.y}m/s²\n Acceleration Z: ${event.accelerationIncludingGravity.z}m/s²`;
+		accelerationIncludingGravityText.innerHTML = `
+			Acceleration X: ${event.accelerationIncludingGravity.x}m/s²<br>
+			Acceleration Y: ${event.accelerationIncludingGravity.y}m/s²<br>
+			Acceleration Z: ${event.accelerationIncludingGravity.z}m/s²
+		`;
 
-		rotationRateText.innerHTML = `Rotation Rate Alpha: ${event.rotationRate.alpha}°/s\n Rotation Rate Beta: ${event.rotationRate.beta}°/s\n Rotation Rate Gamma: ${event.rotationRate.gamma}°/s`;
+		rotationRateText.innerHTML = `
+			Rotation Rate Alpha: ${event.rotationRate.alpha}°/s<br>
+			Rotation Rate Beta: ${event.rotationRate.beta}°/s<br>
+			Rotation Rate Gamma: ${event.rotationRate.gamma}°/s
+		`;
 
 		intervalText.innerHTML = `Interval: ${event.interval}ms`;
 	}, true);
