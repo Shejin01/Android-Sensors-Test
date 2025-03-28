@@ -47,18 +47,25 @@ else {
 	intervalText.innerHTML = "";
 }
 
-const sensor = new Magnetometer();
 const magnetometerText = document.getElementById('magnetometer');
-sensor.start();
+navigator.permissions.query({name: "magnetometer"}).then((result) => {
+	if (result.state === "denied") {
+		magnetometerText.innerHTML = "Permission to use magnetometer sensor is denied.";
+		return;
+	}
 
-sensor.onreading = () => {
-	magnetometerText.innerHTML = `
-		Magnetic Field X: ${sensor.x}µT<br>
-		Magnetic Field Y: ${sensor.y}µT<br>
-		Magnetic Field Z: ${sensor.z}µT
-	`;
-};
+	const sensor = new Magnetometer();
+	sensor.start();
 
-sensor.onerror = event => {
-	magnetometerText.innerHTML = `${event.error.name}: ${event.error.message}`;
-}
+	sensor.onreading = () => {
+		magnetometerText.innerHTML = `
+			Magnetic Field X: ${sensor.x}µT<br>
+			Magnetic Field Y: ${sensor.y}µT<br>
+			Magnetic Field Z: ${sensor.z}µT
+		`;
+	};
+
+	sensor.onerror = event => {
+		magnetometerText.innerHTML = `${event.error.name}: ${event.error.message}`;
+	}
+});
