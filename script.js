@@ -10,8 +10,8 @@ const accelerometerText = document.getElementById("accelerometer");
 const linearAccelerationSensorText = document.getElementById("linearAccelerationSensor");
 const gravitySensorText = document.getElementById("gravitySensor");
 const gyroscopeText = document.getElementById("gyroscope");
-const ambientLightSensorText = document.getElementById("ambientLightSensor");
 const magnetometerText = document.getElementById("magnetometer");
+const ambientLightSensorText = document.getElementById("ambientLightSensor");
 const intervalText = document.getElementById("interval");
 
 /*if (window.DeviceOrientationEvent) {
@@ -89,8 +89,8 @@ const accelerometer = new Accelerometer({frequency: frequency});
 const linearAccelerationSensor = new LinearAccelerationSensor({frequency: frequency});
 const gravitySensor = new GravitySensor({frequency: frequency});
 const gyroscope = new Gyroscope({frequency: frequency});
-const ambientLightSensor = new AmbientLightSensor({frequency: frequency});
 const magnetometer = new Magnetometer({frequency: frequency});
+const ambientLightSensor = new AmbientLightSensor({frequency: frequency});
 
 absoluteOrientationSensor.start();
 relativeOrientationSensor.start();
@@ -98,23 +98,23 @@ accelerometer.start();
 linearAccelerationSensor.start();
 gravitySensor.start();
 gyroscope.start();
-ambientLightSensor.start();
 magnetometer.start();
+ambientLightSensor.start();
 
 absoluteOrientationSensor.onreading = () => {
+	const euler = QuatToEuler(absoluteOrientationSensor.quaternion[0], absoluteOrientationSensor.quaternion[1], absoluteOrientationSensor.quaternion[2], absoluteOrientationSensor.quaternion[3]);
 	absoluteOrientationSensorText.innerHTML = `
-		Absolute Orientation R: ${absoluteOrientationSensor.quaternion[0]}<br>
-		Absolute Orientation I: ${absoluteOrientationSensor.quaternion[1]}<br>
-		Absolute Orientation J: ${absoluteOrientationSensor.quaternion[2]}<br>
-		Absolute Orientation K: ${absoluteOrientationSensor.quaternion[3]}
+		Absolute Orientation X: ${euler[0]}°<br>
+		Absolute Orientation Y: ${euler[1]}°<br>
+		Absolute Orientation Z: ${euler[2]}°
 	`;
 };
 relativeOrientationSensor.onreading = () => {
+	const euler = QuatToEuler(absoluteOrientationSensor.quaternion[0], absoluteOrientationSensor.quaternion[1], absoluteOrientationSensor.quaternion[2], absoluteOrientationSensor.quaternion[3]);
 	relativeOrientationSensorText.innerHTML = `
-		Relative Orientation R: ${relativeOrientationSensor.quaternion[0]}<br>
-		Relative Orientation I: ${relativeOrientationSensor.quaternion[1]}<br>
-		Relative Orientation J: ${relativeOrientationSensor.quaternion[2]}<br>
-		Relative Orientation K: ${relativeOrientationSensor.quaternion[3]}
+		Relative Orientation X: ${euler[0]}°<br>
+		Relative Orientation Y: ${euler[1]}°<br>
+		Relative Orientation Z: ${euler[2]}°
 	`;
 };
 accelerometer.onreading = () => {
@@ -145,16 +145,16 @@ gyroscope.onreading = () => {
 		Gyroscope Z: ${gyroscope.z}°/s
 	`;
 };
-ambientLightSensor.onreading = () => {
-	ambientLightSensorText.innerHTML = `
-		Ambient Light: ${ambientLightSensor.illuminance}lx
-	`;
-};
 magnetometer.onreading = () => {
 	magnetometerText.innerHTML = `
 		Magnetic Field X: ${magnetometer.x}µT<br>
 		Magnetic Field Y: ${magnetometer.y}µT<br>
 		Magnetic Field Z: ${magnetometer.z}µT
+	`;
+};
+ambientLightSensor.onreading = () => {
+	ambientLightSensorText.innerHTML = `
+		Ambient Light: ${ambientLightSensor.illuminance}lx
 	`;
 };
 intervalText.innerHTML = `Interval: ${Math.floor(1000/frequency)}ms`;
@@ -177,9 +177,32 @@ gravitySensor.onerror = event => {
 gyroscope.onerror = event => {
 	gyroscopeText.innerHTML = `${event.error.name}: ${event.error.message}`;
 }
+magnetometer.onerror = event => {
+	magnetometerText.innerHTML = `${event.error.name}: ${event.error.message}`;
+}
 ambientLightSensor.onerror = event => {
 	ambientLightSensorText.innerHTML = `${event.error.name}: ${event.error.message}`;
 }
-magnetometer.onerror = event => {
-	magnetometerText.innerHTML = `${event.error.name}: ${event.error.message}`;
+
+// this implementation assumes normalized quaternion
+// converts to Euler angles in 3-2-1 sequence
+function QuatToEuler(x, y, z, w) {
+	const euler = [0, 0, 0];
+
+    // roll (x-axis rotation)
+    const sinr_cosp = 2 * (w * x + y * z);
+    const cosr_cosp = 1 - 2 * (x * x + y * y);
+    euler[0] = Math.atan2(sinr_cosp, cosr_cosp);
+
+    // pitch (y-axis rotation)
+    const sinp = Math.sqrt(1 + 2 * (w * y - x * z));
+    const cosp = Math.sqrt(1 - 2 * (w * y - x * z));
+    euler[1] = 2 * Math.atan2(sinp, cosp) - Math.PI / 2;
+
+    // yaw (z-axis rotation)
+    const siny_cosp = 2 * (w * z + x * y);
+    const cosy_cosp = 1 - 2 * (y * y + z * z);
+    euler[2] = Math.atan2(siny_cosp, cosy_cosp);
+
+    return euler;
 }
