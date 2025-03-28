@@ -152,12 +152,12 @@ ambientLightSensor.onreading = () => {
 };
 magnetometer.onreading = () => {
 	magnetometerText.innerHTML = `
-		Magnetic Field X: ${sensor.x}µT<br>
-		Magnetic Field Y: ${sensor.y}µT<br>
-		Magnetic Field Z: ${sensor.z}µT
+		Magnetic Field X: ${magnetometer.x}µT<br>
+		Magnetic Field Y: ${magnetometer.y}µT<br>
+		Magnetic Field Z: ${magnetometer.z}µT
 	`;
 };
-intervalText.innerHTML = `Interval: ${absoluteOrientationSensor.timestamp}ms`;
+intervalText.innerHTML = `Interval: ${Math.floor(1000/frequency)}ms`;
 
 absoluteOrientationSensor.onerror = event => {
 	absoluteOrientationSensorText.innerHTML = `${event.error.name}: ${event.error.message}`;
