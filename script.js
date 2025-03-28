@@ -12,6 +12,7 @@ const gravitySensorText = document.getElementById("gravitySensor");
 const gyroscopeText = document.getElementById("gyroscope");
 const ambientLightSensorText = document.getElementById("ambientLightSensor");
 const magnetometerText = document.getElementById("magnetometer");
+const intervalText = document.getElementById("interval");
 
 /*if (window.DeviceOrientationEvent) {
 	window.addEventListener("deviceorientation", (event) => {
@@ -156,6 +157,7 @@ magnetometer.onreading = () => {
 		Magnetic Field Z: ${sensor.z}µT
 	`;
 };
+intervalText.innerHTML = `Interval: ${absoluteOrientationSensor.timestamp}ms`;
 
 absoluteOrientationSensor.onerror = event => {
 	absoluteOrientationSensorText.innerHTML = `${event.error.name}: ${event.error.message}`;
