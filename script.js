@@ -101,20 +101,22 @@ gyroscope.start();
 magnetometer.start();
 ambientLightSensor.start();
 
+const conversionUnit = 180 / Math.PI;
+
 absoluteOrientationSensor.onreading = () => {
 	const euler = QuatToEuler(absoluteOrientationSensor.quaternion[0], absoluteOrientationSensor.quaternion[1], absoluteOrientationSensor.quaternion[2], absoluteOrientationSensor.quaternion[3]);
 	absoluteOrientationSensorText.innerHTML = `
-		Absolute Orientation X: ${euler[0]}°<br>
-		Absolute Orientation Y: ${euler[1]}°<br>
-		Absolute Orientation Z: ${euler[2]}°
+		Absolute Orientation X: ${euler[0] * conversionUnit + Math.PI}°<br>
+		Absolute Orientation Y: ${euler[1] * conversionUnit + Math.PI}°<br>
+		Absolute Orientation Z: ${euler[2] * conversionUnit + Math.PI}°
 	`;
 };
 relativeOrientationSensor.onreading = () => {
 	const euler = QuatToEuler(absoluteOrientationSensor.quaternion[0], absoluteOrientationSensor.quaternion[1], absoluteOrientationSensor.quaternion[2], absoluteOrientationSensor.quaternion[3]);
 	relativeOrientationSensorText.innerHTML = `
-		Relative Orientation X: ${euler[0]}°<br>
-		Relative Orientation Y: ${euler[1]}°<br>
-		Relative Orientation Z: ${euler[2]}°
+		Relative Orientation X: ${euler[0] * conversionUnit + Math.PI}°<br>
+		Relative Orientation Y: ${euler[1] * conversionUnit + Math.PI}°<br>
+		Relative Orientation Z: ${euler[2] * conversionUnit + Math.PI}°
 	`;
 };
 accelerometer.onreading = () => {
@@ -140,9 +142,9 @@ gravitySensor.onreading = () => {
 };
 gyroscope.onreading = () => {
 	gyroscopeText.innerHTML = `
-		Gyroscope X: ${gyroscope.x}°/s<br>
-		Gyroscope Y: ${gyroscope.y}°/s<br>
-		Gyroscope Z: ${gyroscope.z}°/s
+		Gyroscope X: ${gyroscope.x * conversionUnit}°/s<br>
+		Gyroscope Y: ${gyroscope.y * conversionUnit}°/s<br>
+		Gyroscope Z: ${gyroscope.z * conversionUnit}°/s
 	`;
 };
 magnetometer.onreading = () => {
