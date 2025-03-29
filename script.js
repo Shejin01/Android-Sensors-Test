@@ -106,17 +106,17 @@ const conversionUnit = 180 / Math.PI;
 absoluteOrientationSensor.onreading = () => {
 	const euler = QuatToEuler(absoluteOrientationSensor.quaternion[0], absoluteOrientationSensor.quaternion[1], absoluteOrientationSensor.quaternion[2], absoluteOrientationSensor.quaternion[3]);
 	absoluteOrientationSensorText.innerHTML = `
-		Absolute Orientation X: ${euler[0] * conversionUnit + Math.PI}°<br>
-		Absolute Orientation Y: ${euler[1] * conversionUnit + Math.PI}°<br>
-		Absolute Orientation Z: ${euler[2] * conversionUnit + Math.PI}°
+		Absolute Orientation X: ${euler[0] * conversionUnit + 2.0*Math.PI}°<br>
+		Absolute Orientation Y: ${euler[1] * conversionUnit + 2.0*Math.PI}°<br>
+		Absolute Orientation Z: ${euler[2] * conversionUnit + 2.0*Math.PI}°
 	`;
 };
 relativeOrientationSensor.onreading = () => {
 	const euler = QuatToEuler(absoluteOrientationSensor.quaternion[0], absoluteOrientationSensor.quaternion[1], absoluteOrientationSensor.quaternion[2], absoluteOrientationSensor.quaternion[3]);
 	relativeOrientationSensorText.innerHTML = `
-		Relative Orientation X: ${euler[0] * conversionUnit + Math.PI}°<br>
-		Relative Orientation Y: ${euler[1] * conversionUnit + Math.PI}°<br>
-		Relative Orientation Z: ${euler[2] * conversionUnit + Math.PI}°
+		Relative Orientation X: ${euler[0] * conversionUnit + 2.0*Math.PI}°<br>
+		Relative Orientation Y: ${euler[1] * conversionUnit + 2.0*Math.PI}°<br>
+		Relative Orientation Z: ${euler[2] * conversionUnit + 2.0*Math.PI}°
 	`;
 };
 accelerometer.onreading = () => {
